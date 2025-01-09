@@ -104,13 +104,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           // Gambar toko
           Positioned(
-            top: 50,
+            top: 170,
             left: 20,
             right: 20,
             child: Image.asset(
               'assets/images/toko-removebg-preview.png',
-              width: 300,
-              height: 300,
+              width: 370,
+              height: 370,
               fit: BoxFit.contain,
             )
           ),
