@@ -185,7 +185,7 @@ class _PenjualanTabState extends State<PenjualanTab> {
                 ),
       floatingActionButton: FloatingActionButton(
         onPressed: () { 
-          // Tambahkan aksi untuk menambahkan penjualan
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ()))
         },
         child: Icon(Icons.add),
       ),
