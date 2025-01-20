@@ -21,16 +21,16 @@ class _AddPelangganState extends State<AddPelanggan> {
       final String Alamat = _alamat.text;
       final String NomorTelepon = _notlp.text;
 
-      final response = await Supabase.instance.client.from('pelanggan').insert([
+      final response = await Supabase.instance.client.from('pelanggan').insert(
         {
           'NamaPelanggan': NamaPelanggan,
           'Alamat': Alamat,
           'NomorTelepon': NomorTelepon,
         }
-      ]);
+      );
 
       // Cek jika ada error pada response
-      if (response.error != null) {
+      if (response != null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MyHomePage()),

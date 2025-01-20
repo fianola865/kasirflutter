@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kasir/homepage.dart';
-import 'package:kasir/penjualan/indexpenjualan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class addproduk extends StatefulWidget {
@@ -22,20 +21,20 @@ class _addprodukState extends State<addproduk> {
       final Harga = double.tryParse(_harga.text) ?? 0;
       final Stok = int.tryParse(_stok.text) ?? 0;
 
-      final response = await Supabase.instance.client.from('produk').insert([
+      final response = await Supabase.instance.client.from('produk').insert(
         {
           'NamaProduk' : NamaProduk,
           'Harga': Harga,
           'Stok': Stok,
         }
-      ]);
-      if (response.error != null) {
+      );
+      if (response != null) {
         Navigator.pushReplacement(context, 
-        MaterialPageRoute(builder: (context) => PenjualanTab()),
+        MaterialPageRoute(builder: (context) => MyHomePage()),
         );
       } else {
         Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => PenjualanTab()),
+        MaterialPageRoute(builder: (context) => MyHomePage()),
         );
       }
     }

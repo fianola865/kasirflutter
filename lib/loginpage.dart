@@ -111,6 +111,11 @@ class MyLoginPage extends StatelessWidget {
             ),
           ),
           Positioned(
+            top: 80,
+            left: 20,
+            right: 20,
+            child: Image.asset('assets/images/toko3-removebg-preview.png')),
+          Positioned(
             top: 450,
             right: 50,
             left: 50,
@@ -161,11 +166,7 @@ class MyLoginPage extends StatelessWidget {
               child: Text('Login')
             ),
           ),
-          Positioned(
-            top: 80,
-            left: 20,
-            right: 20,
-            child: Image.asset('assets/images/toko3-removebg-preview.png'))
+          
         ],
       ),
     );

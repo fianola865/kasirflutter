@@ -21,16 +21,16 @@ class _AddTransaksiState extends State<AddTransaksi> {
       final double totalHarga = double.tryParse(_hrg.text) ?? 0;
       final int pelangganId = int.tryParse(_pelanggan.text) ?? 0;
 
-      final response = await Supabase.instance.client.from('penjualan').insert([
+      final response = await Supabase.instance.client.from('penjualan').insert(
         {
           'TanggalPenjualan': tanggalPenjualan,
           'TotalHarga': totalHarga,
           'Pelangganid': pelangganId,
         }
-      ]);
+      );
 
       // Cek jika ada error pada response
-      if (response.error != null) {
+      if (response != null) {
         // Tetap pindah ke halaman PenjualanTab meskipun terjadi error
         Navigator.pushReplacement(
           context,

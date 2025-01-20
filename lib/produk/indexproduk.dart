@@ -66,7 +66,14 @@ class _ProdukTabState extends State<ProdukTab> {
         itemCount: produk.length, 
         itemBuilder: (context, index) {
           final prd = produk[index];
-          return Card(
+          return InkWell(
+            onTap: () {
+              showDialog(context: context, 
+              builder: (context) => AlertDialog(
+                title: Text('Produk: ${produk['NamaProduk']}'),
+              ));
+            }
+            Card(
             elevation: 4,
             margin: EdgeInsets.symmetric(vertical: 8),
             shape: RoundedRectangleBorder(
@@ -104,6 +111,7 @@ class _ProdukTabState extends State<ProdukTab> {
                 ),
               ),
             ),
+          )
           );
         },
       ),
