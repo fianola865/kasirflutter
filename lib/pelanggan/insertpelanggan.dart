@@ -14,12 +14,42 @@ class _AddPelangganState extends State<AddPelanggan> {
   final _alamat = TextEditingController();
   final _notlp = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  int? pelangganId;
 
+  // Function to get PelangganId by NamaPelanggan
+  Future<void> getPelangganIdByName(String nama) async {
+    final response = await Supabase.instance.client
+        .from('pelanggan')
+        .select('Pelangganid')
+        .eq('NamaPelanggan', nama)
+        .single();
+
+    if (response != null) {
+      setState(() {
+        pelangganId = response['Pelangganid'];
+      });
+    } else {
+      // Handle case when no matching name is found
+      setState(() {
+        pelangganId = null;
+      });
+    }
+  }
+
+  // Function to insert the pelanggan
   Future<void> langgan() async {
     if (_formKey.currentState!.validate()) {
       final String NamaPelanggan = _nmplg.text;
       final String Alamat = _alamat.text;
       final String NomorTelepon = _notlp.text;
+
+      if (pelangganId == null) {
+        // If the ID is not found, show an error message
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Pelanggan dengan nama $NamaPelanggan tidak ditemukan!'),
+        ));
+        return;
+      }
 
       final response = await Supabase.instance.client.from('pelanggan').insert(
         {
@@ -29,22 +59,18 @@ class _AddPelangganState extends State<AddPelanggan> {
         }
       );
 
-      // Cek jika ada error pada response
-      if (response != null) {
+      if (response.error == null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MyHomePage()),
         );
       } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
-        );
+        print('Error inserting customer: ${response.error?.message}');
       }
     }
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -63,6 +89,9 @@ class _AddPelangganState extends State<AddPelanggan> {
                   labelText: 'Nama Pelanggan',
                   border: OutlineInputBorder(),
                 ),
+                onChanged: (value) {
+                  getPelangganIdByName(value); // Update the ID when the name changes
+                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Nama tidak boleh kosong';
