@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/penjualan/insertpenjualan.dart';
-import 'package:kasir/penjualan/updatepenjualan.dart';
+import 'package:kasir/admin/penjualan/insertpenjualan.dart';
+import 'package:kasir/admin/penjualan/updatepenjualan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 

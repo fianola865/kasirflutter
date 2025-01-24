@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:kasir/homepage.dart';
-import 'package:kasir/pelanggan/indexpelanggan.dart';
-import 'package:kasir/pelanggan/insertpelanggan.dart';
+import 'package:kasir/admin/homepage.dart';
+import 'package:kasir/admin/pelanggan/indexpelanggan.dart';
+import 'package:kasir/admin/pelanggan/insertpelanggan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditPelanggan extends StatefulWidget {
@@ -54,7 +54,7 @@ Future<void> updatePelanggan() async {
     // Navigasi ke PelangganTab setelah update, dengan menghapus semua halaman sebelumnya dari stack
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => MyHomePage()),
+      MaterialPageRoute(builder: (context) => AdminHomePage()),
       (route) => false, // Hapus semua halaman sebelumnya
     );
   }

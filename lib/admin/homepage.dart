@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/pelanggan/indexpelanggan.dart';
-import 'package:kasir/penjualan/indexpenjualan.dart';
-import 'package:kasir/produk/indexproduk.dart';
+import 'package:kasir/admin/detail/indeksjual.dart';
+import 'package:kasir/admin/pelanggan/indexpelanggan.dart';
+import 'package:kasir/admin/penjualan/indexpenjualan.dart';
+import 'package:kasir/admin/produk/indexproduk.dart';
+import 'package:kasir/admin/regristrasi/indexuser.dart';
 
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class AdminHomePage extends StatelessWidget {
+  const AdminHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +15,13 @@ class MyHomePage extends StatelessWidget {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
+          
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.drafts, color: Colors.pink.shade200), text: 'Detail Penjualan'),
               Tab(icon: Icon(Icons.inventory, color: Colors.pink.shade200), text: 'Produk'),
               Tab(icon: Icon(Icons.people, color: Colors.pink.shade200), text: 'Customer'),
-              Tab(icon: Icon(Icons.shopping_cart, color: Colors.pink.shade200), text: 'Penjualan'),
+              Tab(icon: Icon(Icons.money, color: Colors.pink.shade200), text: 'Penjualan'),
             ],
           ),
         ),
@@ -40,7 +43,7 @@ class MyHomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const MyHomePage()),
+                        MaterialPageRoute(builder: (context) => const AdminHomePage()),
                       );
                     },
                   ),
@@ -48,8 +51,12 @@ class MyHomePage extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.dashboard),
-                title: Text('Dashboard'),
-                onTap: () {},
+                title: Text('Register'),
+                onTap: () {
+                  Navigator.push(context, 
+                  MaterialPageRoute(builder: (context) => UserTab())
+                  );
+                },
               ),
               ListTile(
                 leading: Icon(Icons.bar_chart),
@@ -69,7 +76,7 @@ class MyHomePage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            Center(child: Text('Detail Penjualan')),
+            DetailPenjualanTab(),
             ProdukTab(),
             PelangganTab(),
             PenjualanTab(),

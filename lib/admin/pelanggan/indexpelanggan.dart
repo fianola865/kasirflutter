@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/pelanggan/insertpelanggan.dart';
-import 'package:kasir/pelanggan/updatepelanggan.dart';
+import 'package:kasir/admin/pelanggan/insertpelanggan.dart';
+import 'package:kasir/admin/pelanggan/updatepelanggan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -159,7 +159,7 @@ class _PelangganTabState extends State<PelangganTab> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddPelanggan()),
+            MaterialPageRoute(builder: (context) => addpelanggan()),
           );
         },
         child: Icon(Icons.add),
