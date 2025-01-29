@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/admin/homepage.dart';
+import 'package:kasir/admin/adminhomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class addproduk extends StatefulWidget {

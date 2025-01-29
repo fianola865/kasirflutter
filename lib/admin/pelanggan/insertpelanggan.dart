@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/admin/homepage.dart';
+import 'package:kasir/admin/adminhomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class addpelanggan extends StatefulWidget {
@@ -13,6 +13,7 @@ class _addprodukState extends State<addpelanggan> {
   final _nmplg = TextEditingController();
   final _alamat = TextEditingController();
   final _nmtlp = TextEditingController();
+  final _pw = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   Future<void> pelanggan() async{
@@ -20,12 +21,14 @@ class _addprodukState extends State<addpelanggan> {
       final NamaPelanggan = _nmplg.text;
       final Alamat = _alamat.text;
       final NomorTelepon = _nmtlp.text;
+      final Password = _pw.text;
 
       final response = await Supabase.instance.client.from('pelanggan').insert(
         {
           'NamaPelanggan' : NamaPelanggan,
           'Alamat': Alamat,
           'NomorTelepon': NomorTelepon,
+          'Password': Password
         }
       );
       if (response != null) {
@@ -86,6 +89,21 @@ class _addprodukState extends State<addpelanggan> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: 'NomorTelepon',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'tidak boleh kosong';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _pw,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Passwors',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {

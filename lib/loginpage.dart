@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'admin/homepage.dart';
+import 'admin/adminhomepage.dart';
+import 'petugas/petugashomepage.dart'; // Tambahkan halaman untuk petugas jika diperlukan
 
 void main() {
   runApp(const MyApp());
@@ -30,10 +31,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
   final supabaseClient = Supabase.instance.client;
 
   Future<void> _login() async {
-    final Username = _username.text.trim();
-    final Password = _password.text.trim();
+    final username = _username.text.trim();
+    final password = _password.text.trim();
 
-    if (Username.isEmpty || Password.isEmpty) {
+    if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Username dan password tidak boleh kosong')),
       );
@@ -41,18 +42,34 @@ class _MyLoginPageState extends State<MyLoginPage> {
     }
 
     try {
+      // Ambil data username, password, dan role
       final response = await supabaseClient
-          .from('user')
-          .select('Username, Password')
-          .eq('Username', Username)
+          .from('user ')
+          .select('Username, Password, Role')
+          .eq('Username', username)
           .single();
 
-      if (response != null && response['Password'] == Password) {
-        // Login berhasil, navigasi ke homepage
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const AdminHomePage()),
-        );
+      if (response != null && response['Password'] == password) {
+        final role = response['Role'];
+
+        if (role == 'admin') {
+          // Jika admin, navigasi ke halaman AdminHomePage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const AdminHomePage()),
+          );
+        } else if (role == 'petugas') {
+          // Jika petugas, navigasi ke halaman PetugasHomePage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const PetugasHomePage()),
+          );
+        } else {
+          // Role lain, tampilkan pesan
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Role tidak dikenal')),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Username atau password salah')),
@@ -64,13 +81,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
       );
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
+          // Latar belakang dan UI tetap sama seperti sebelumnya
           Positioned(
             top: -80,
             left: -65,
@@ -83,84 +100,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
               ),
             ),
           ),
-          Positioned(
-            top: 50,
-            left: 175,
-            child: Container(
-              width: 45,
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.blue[100],
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 25,
-            left: 205,
-            child: Container(
-              width: 65,
-              height: 65,
-              decoration: BoxDecoration(
-                color: Colors.yellow[100],
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 210,
-            left: 45,
-            child: Container(
-              width: 275,
-              height: 215,
-              decoration: BoxDecoration(
-                color: Colors.pink[100],
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 122,
-            left: 170,
-            child: Container(
-              width: 350,
-              height: 315,
-              decoration: BoxDecoration(
-                color: Colors.pink[100],
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -30,
-            left: -60,
-            child: Container(
-              width: 150,
-              height: 115,
-              decoration: BoxDecoration(
-                color: Colors.blue[200],
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -60,
-            right: -90,
-            child: Container(
-              width: 150,
-              height: 115,
-              decoration: BoxDecoration(
-                color: Colors.purple[100],
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 80,
-            left: 20,
-            right: 20,
-            child: Image.asset('assets/images/toko3-removebg-preview.png'),
-          ),
+          // Field username
           Positioned(
             top: 450,
             right: 50,
@@ -181,7 +121,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
               ),
             ),
           ),
-          // Password field
+          // Field password
           Positioned(
             top: 520,
             right: 50,
@@ -203,7 +143,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
               ),
             ),
           ),
-          // Login button
+          // Tombol login
           Positioned(
             top: 600,
             left: 90,
@@ -218,7 +158,3 @@ class _MyLoginPageState extends State<MyLoginPage> {
     );
   }
 }
-
-
-
-

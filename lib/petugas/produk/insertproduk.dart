@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasir/admin/adminhomepage.dart';
+import 'package:kasir/petugas/petugashomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class addproduk extends StatefulWidget {
@@ -30,11 +31,11 @@ class _addprodukState extends State<addproduk> {
       );
       if (response != null) {
         Navigator.pushReplacement(context, 
-        MaterialPageRoute(builder: (context) => AdminHomePage()),
+        MaterialPageRoute(builder: (context) => PetugasHomePage()),
         );
       } else {
         Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => AdminHomePage()),
+        MaterialPageRoute(builder: (context) => PetugasHomePage()),
         );
       }
     }

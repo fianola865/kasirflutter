@@ -4,10 +4,11 @@ import 'package:kasir/admin/pelanggan/indexpelanggan.dart';
 import 'package:kasir/admin/penjualan/indexpenjualan.dart';
 import 'package:kasir/admin/produk/indexproduk.dart';
 import 'package:kasir/admin/regristrasi/indexuser.dart';
+import 'package:kasir/loginpage.dart';
 
 
-class AdminHomePage extends StatelessWidget {
-  const AdminHomePage({super.key});
+class PetugasHomePage extends StatelessWidget {
+  const PetugasHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,21 +44,13 @@ class AdminHomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AdminHomePage()),
+                        MaterialPageRoute(builder: (context) => const PetugasHomePage()),
                       );
                     },
                   ),
                 ),
               ),
-              ListTile(
-                leading: Icon(Icons.dashboard),
-                title: Text('Register'),
-                onTap: () {
-                  Navigator.push(context, 
-                  MaterialPageRoute(builder: (context) => UserTab())
-                  );
-                },
-              ),
+              
               ListTile(
                 leading: Icon(Icons.bar_chart),
                 title: Text('Laporan'),
@@ -70,6 +63,9 @@ class AdminHomePage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.arrow_back),
                 title: Text('Log Out'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+                },
               ),
             ],
           ),

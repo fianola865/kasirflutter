@@ -20,15 +20,17 @@ class _UserTabState extends State<UserTab> {
     super.initState();
     fetchuser();
   }
-  Future<void> deleteuser(int id) async{
-    try{
+
+  Future<void> deleteuser(int id) async {
+    try {
       await Supabase.instance.client.from('user').delete().eq('Userid', id);
       fetchuser();
-    } catch (e){
+    } catch (e) {
       print('error: $e');
     }
   }
-  Future<void> fetchuser() async{
+
+  Future<void> fetchuser() async {
     setState(() {
       isLoading = true;
     });
@@ -50,97 +52,92 @@ class _UserTabState extends State<UserTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User table'),
+        title: Text('User Table'),
       ),
       body: isLoading
-      ? Center(
-        child: LoadingAnimationWidget.twoRotatingArc(color: Colors.grey, size: 30),
-      )
-      : user.isEmpty
-      ? Center(
-        child: Text('User belum ditambahkan',
-        style: TextStyle(fontSize: 18),
-        ),
-      )
-      : SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          columns: [
-            DataColumn(
-              label: Text('Username',
-              style: TextStyle(fontWeight: FontWeight.bold),
-              )
-            ),
-            DataColumn(
-              label: Text('Password',
-              style: TextStyle(fontWeight: FontWeight.bold),
-              )
-            ),
-            DataColumn(
-              label: Text('Role',
-              style: TextStyle(fontWeight: FontWeight.bold),
-              )
-            ),
-            DataColumn(
-              label: Text('Aksi',
-              style: TextStyle(fontWeight: FontWeight.bold),
-              )
-            ),
-            DataColumn(
-              label: Text('Tambah',
-              style: TextStyle(fontWeight: FontWeight.bold),
-              )
-            ),
-          ], 
-          rows: 
-          user
-          .map(
-            (userdata) => DataRow(
-              cells: [
-                DataCell(Text(userdata['Username'] ?? '')),
-                DataCell(Text(userdata['Password'] ?? '')),
-                DataCell(Text(userdata['Role'] ?? '')),
-                DataCell(
-                  Row(
-                    children: [
-                      IconButton(onPressed: (){
-                        final Userid = userdata['Userid'] ?? 0;
-                        if(Userid != 0);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateUser(Userid: Userid)));
-                      }, icon: Icon(Icons.edit,color: Colors.blue)),
-                      SizedBox(width: 16),
-                      IconButton(onPressed: (){
-                        showDialog(context: context, builder: (BuildContext context){
-                          return AlertDialog(
-                            title: Text('Hapus user'),
-                            content: Text('Apakah anda yakin menghapus user?'),
-                            actions: [
-                              TextButton(onPressed: (){
-                                Navigator.pop(context);
-                              }, child: Text('Batal')),
-                              TextButton(onPressed: (){
-                                Navigator.pop(context);
-                                deleteuser(userdata['Userid']);
-                              }, 
-                              child: Text('Hapus'))
-                            ],
-                          );
-                        });
-                      }, icon: Icon(Icons.delete, color: Colors.red))
-                    ],
-                  )
-                ),
-                DataCell(IconButton(onPressed: (){
-                        Navigator.push(context, 
-                        MaterialPageRoute(builder: (context) => UserInsert())
-                        );
-                      }, icon: Icon(Icons.add)),)
-              ]
+          ? Center(
+              child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.grey, size: 30),
             )
-          )
-          .toList()
-        )
-      )
+          : user.isEmpty
+              ? Center(
+                  child: Text(
+                    'User belum ditambahkan',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                )
+              : ListView.builder(
+                  padding: EdgeInsets.all(8),
+                  itemCount: user.length,
+                  itemBuilder: (context, index) {
+                    final plg = user[index];
+                    return Card(
+                      elevation: 4,
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      child: SizedBox(
+                        height: 180,
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Username: ${plg['Username'] ?? 'tidak tersedia'}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Password: ${plg['Password'] ?? 'tidak tersedia'}',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Role: ${plg['Role'] ?? 'tidak tersedia'}',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Spacer(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () {
+                                      final Userid = plg['Userid'] ?? 0; // Pastikan ini sesuai dengan kolom di database
+                                        if (Userid != 0) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => UpdateUser(Userid: Userid)
+                                            ),
+                                          );
+                                        } else {
+                                          print('ID pelanggan tidak valid');
+                                        }
+                                      },
+                                    ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      deleteuser(plg['Userid']);
+                                    },
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              floatingActionButton: FloatingActionButton(onPressed:(){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UserInsert()));
+              },
+              child: Icon(Icons.add),
+              ),
     );
   }
 }

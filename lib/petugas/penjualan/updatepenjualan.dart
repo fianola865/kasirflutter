@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:kasir/admin/adminhomepage.dart';
+import 'package:kasir/petugas/petugashomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PenjualanUpdate extends StatefulWidget {
@@ -56,7 +57,7 @@ class _PenjualanUpdateState extends State<PenjualanUpdate> {
 
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => AdminHomePage()),
+          MaterialPageRoute(builder: (context) => PetugasHomePage()),
           (route) => false,
         );
       } catch (error) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kasir/admin/adminhomepage.dart';
 import 'package:kasir/admin/penjualan/indexpenjualan.dart';
+import 'package:kasir/petugas/petugashomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AddTransaksi extends StatefulWidget {
@@ -33,13 +34,13 @@ class _AddTransaksiState extends State<AddTransaksi> {
         // Tetap pindah ke halaman PenjualanTab meskipun terjadi error
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => AdminHomePage()),
+          MaterialPageRoute(builder: (context) => PetugasHomePage()),
         );
       } else {
         // Pindah ke halaman PenjualanTab jika transaksi berhasil
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => AdminHomePage()),
+          MaterialPageRoute(builder: (context) => PetugasHomePage()),
         );
       }
     }

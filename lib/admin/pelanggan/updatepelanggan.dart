@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:kasir/admin/homepage.dart';
+import 'package:kasir/admin/adminhomepage.dart';
 import 'package:kasir/admin/pelanggan/indexpelanggan.dart';
 import 'package:kasir/admin/pelanggan/insertpelanggan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,6 +18,7 @@ class _EditPelangganState extends State<EditPelanggan> {
   final _nmplg = TextEditingController();
   final _alamat = TextEditingController();
   final _notlp = TextEditingController();
+  final _pw = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -38,6 +39,7 @@ class _EditPelangganState extends State<EditPelanggan> {
       _nmplg.text = data['NamaPelanggan'] ?? '';
       _alamat.text = data['Alamat'] ?? '';
       _notlp.text = data['NomorTelepon'] ?? '';
+      _pw.text = data['Password'] ?? '';
     });
   }
 
@@ -49,6 +51,7 @@ Future<void> updatePelanggan() async {
       'NamaPelanggan': _nmplg.text,
       'Alamat': _alamat.text,
       'NomorTelepon': _notlp.text,
+      'Password': _pw.text
     }).eq('Pelangganid', widget.Pelangganid);
 
     // Navigasi ke PelangganTab setelah update, dengan menghapus semua halaman sebelumnya dari stack

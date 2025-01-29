@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasir/admin/adminhomepage.dart';
+import 'package:kasir/petugas/petugashomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Updateproduk extends StatefulWidget {
@@ -43,7 +44,7 @@ class _UpdateprodukState extends State<Updateproduk> {
         'Harga': _harga.text,
         'Stok': _stok.text
       }).eq('Produkid', widget.Produkid);
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => AdminHomePage()),
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => PetugasHomePage()),
       (route) => false
       );
     }
