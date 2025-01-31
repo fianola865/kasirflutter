@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kasir/admin/produk/updateproduk.dart';
+import 'package:kasir/petugas/produk/insertproduk.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'hargaproduk.dart'; // Import halaman baru
+
 class ProdukTab extends StatefulWidget {
   const ProdukTab({super.key});
 
@@ -69,7 +72,16 @@ class _ProdukTabState extends State<ProdukTab> {
                   itemCount: produk.length,
                   itemBuilder: (context, index) {
                     final prd = produk[index];
-                      return Card(
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProdukDetailPage(produk: prd),
+                          ),
+                        );
+                      },
+                      child: Card(
                         elevation: 4,
                         margin: EdgeInsets.symmetric(vertical: 8),
                         shape: RoundedRectangleBorder(
@@ -151,10 +163,14 @@ class _ProdukTabState extends State<ProdukTab> {
                             ),
                           ),
                         ),
-                      );
-                    
+                      ),
+                    );
                   },
                 ),
+              floatingActionButton: FloatingActionButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => addproduk()));
+              },
+              child: Icon(Icons.add),),
     );
   }
 }

@@ -100,14 +100,70 @@ class _PelangganTabState extends State<PelangganTab> {
                               ),
                               textAlign: TextAlign.justify,
                             ),
-                            
+                            const Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit, color: Colors.blueAccent),
+                                  onPressed: () {
+                                    final Pelangganid = langgan['Pelangganid'] ?? 0; // Pastikan ini sesuai dengan kolom di database
+                                    if (Pelangganid != 0) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EditPelanggan(Pelangganid: Pelangganid),
+                                        ),
+                                      );
+                                    } else {
+                                      print('ID pelanggan tidak valid');
+                                    }
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete, color: Colors.redAccent),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Hapus Pelanggan'),
+                                          content: const Text('Apakah Anda yakin ingin menghapus pelanggan ini?'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context),
+                                              child: const Text('Batal'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                deletePelanggan(langgan['Pelangganid']);
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Hapus'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                     );
                   },
                 ),
-      
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => addpelanggan()),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }

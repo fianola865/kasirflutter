@@ -6,9 +6,9 @@ import 'package:kasir/petugas/petugashomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PenjualanUpdate extends StatefulWidget {
-  final int Pelangganid;
+  final int Penjualanid;
 
-  const PenjualanUpdate({super.key, required this.Pelangganid});
+  const PenjualanUpdate({super.key, required this.Penjualanid});
 
   @override
   State<PenjualanUpdate> createState() => _PenjualanUpdateState();
@@ -16,7 +16,7 @@ class PenjualanUpdate extends StatefulWidget {
 
 class _PenjualanUpdateState extends State<PenjualanUpdate> {
   final _tglController = TextEditingController();
-  final _hrgController = TextEditingController();
+  final _subController = TextEditingController();
   final _pelangganController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -31,12 +31,12 @@ class _PenjualanUpdateState extends State<PenjualanUpdate> {
       final data = await Supabase.instance.client
           .from('penjualan')
           .select()
-          .eq('Pelangganid', widget.Pelangganid)
+          .eq('Penjualanid', widget.Penjualanid)
           .single();
 
       setState(() {
         _tglController.text = data['TanggalPenjualan'] ?? '';
-        _hrgController.text = data['Harga']?.toString() ?? '';
+        _subController.text = data['TotalHarga']?.toString() ?? '';
         _pelangganController.text = data['Pelangganid'] ?? '';
       });
     } catch (error) {
@@ -51,9 +51,9 @@ class _PenjualanUpdateState extends State<PenjualanUpdate> {
       try {
         await Supabase.instance.client.from('penjualan').update({
           'TanggalPenjualan': _tglController.text,
-          'Harga': double.tryParse(_hrgController.text) ?? 0,
+          'TotalHarga': double.tryParse(_subController.text) ?? 0,
           'Pelangganid': _pelangganController.text,
-        }).eq('Pelangganid', widget.Pelangganid);
+        }).eq('Penjualanid', widget.Penjualanid);
 
         Navigator.pushAndRemoveUntil(
           context,
@@ -71,7 +71,7 @@ class _PenjualanUpdateState extends State<PenjualanUpdate> {
   @override
   void dispose() {
     _tglController.dispose();
-    _hrgController.dispose();
+    _subController.dispose();
     _pelangganController.dispose();
     super.dispose();
   }
@@ -104,9 +104,9 @@ class _PenjualanUpdateState extends State<PenjualanUpdate> {
               ),
               SizedBox(height: 16),
               TextFormField(
-                controller: _hrgController,
+                controller: _subController,
                 decoration: InputDecoration(
-                  labelText: 'Harga',
+                  labelText: 'Total Harga',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,

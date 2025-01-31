@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin/adminhomepage.dart';
-import 'petugas/petugashomepage.dart'; // Tambahkan halaman untuk petugas jika diperlukan
 
 void main() {
   runApp(const MyApp());
@@ -42,42 +41,49 @@ class _MyLoginPageState extends State<MyLoginPage> {
     }
 
     try {
-      // Ambil data username, password, dan role
       final response = await supabaseClient
-          .from('user ')
-          .select('Username, Password, Role')
+          .from('user')
+          .select('Userid, Username, Password, Role')
           .eq('Username', username)
-          .single();
+          .maybeSingle();
 
-      if (response != null && response['Password'] == password) {
+      if (response == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Username tidak ditemukan')),
+        );
+        return;
+      }
+
+      if (response['Password'] == password) {
         final role = response['Role'];
+        final userId = response['Userid']; // ID user berhasil diambil
+
+        print('User ID: $userId'); // Debugging untuk melihat User ID
 
         if (role == 'admin') {
-          // Jika admin, navigasi ke halaman AdminHomePage
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const AdminHomePage()),
           );
-        } else if (role == 'petugas') {
-          // Jika petugas, navigasi ke halaman PetugasHomePage
+        } else if (role == 'petugas'){
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const PetugasHomePage()),
+            MaterialPageRoute(builder: (context) => const AdminHomePage()),
           );
-        } else {
-          // Role lain, tampilkan pesan
+        }
+        else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Role tidak dikenal')),
           );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Username atau password salah')),
+          const SnackBar(content: Text('Password salah')),
         );
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Terjadi kesalahan, coba lagi nanti')),
+        SnackBar(content: Text('Terjadi kesalahan: $error')),
       );
     }
   }
@@ -87,7 +93,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Latar belakang dan UI tetap sama seperti sebelumnya
           Positioned(
             top: -80,
             left: -65,
@@ -100,7 +105,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
               ),
             ),
           ),
-          // Field username
           Positioned(
             top: 450,
             right: 50,
@@ -121,7 +125,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
               ),
             ),
           ),
-          // Field password
           Positioned(
             top: 520,
             right: 50,
@@ -143,7 +146,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
               ),
             ),
           ),
-          // Tombol login
           Positioned(
             top: 600,
             left: 90,

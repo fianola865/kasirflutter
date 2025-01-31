@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasir/admin/adminhomepage.dart';
+import 'package:kasir/petugas/petugashomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class addpelanggan extends StatefulWidget {
@@ -13,7 +14,7 @@ class _addprodukState extends State<addpelanggan> {
   final _nmplg = TextEditingController();
   final _alamat = TextEditingController();
   final _nmtlp = TextEditingController();
-  
+ 
   final _formKey = GlobalKey<FormState>();
 
   Future<void> pelanggan() async{
@@ -21,8 +22,7 @@ class _addprodukState extends State<addpelanggan> {
       final NamaPelanggan = _nmplg.text;
       final Alamat = _alamat.text;
       final NomorTelepon = _nmtlp.text;
-     
-
+      
       final response = await Supabase.instance.client.from('pelanggan').insert(
         {
           'NamaPelanggan' : NamaPelanggan,
@@ -33,11 +33,11 @@ class _addprodukState extends State<addpelanggan> {
       );
       if (response != null) {
         Navigator.pushReplacement(context, 
-        MaterialPageRoute(builder: (context) => AdminHomePage()),
+        MaterialPageRoute(builder: (context) => PetugasHomePage()),
         );
       } else {
         Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => AdminHomePage()),
+        MaterialPageRoute(builder: (context) => PetugasHomePage()),
         );
       }
     }
@@ -98,7 +98,7 @@ class _addprodukState extends State<addpelanggan> {
                   return null;
                 },
               ),
-             
+              
               SizedBox(height: 16),
               ElevatedButton(onPressed: pelanggan, 
               child: Text('Tambah'))

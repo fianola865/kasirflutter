@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kasir/admin/adminhomepage.dart';
+import 'package:kasir/petugas/petugashomepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditPelanggan extends StatefulWidget {
@@ -53,7 +54,7 @@ Future<void> updatePelanggan() async {
     // Navigasi ke PelangganTab setelah update, dengan menghapus semua halaman sebelumnya dari stack
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => AdminHomePage()),
+      MaterialPageRoute(builder: (context) => PetugasHomePage()),
       (route) => false, // Hapus semua halaman sebelumnya
     );
   }

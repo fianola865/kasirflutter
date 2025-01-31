@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/admin/penjualan/insertpenjualan.dart';
 import 'package:kasir/admin/penjualan/updatepenjualan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -90,14 +89,14 @@ class _PenjualanTabState extends State<PenjualanTab> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Total Harga: ${jual['TotalHarga'] ?? 'Tidak tersedia'}',
+                                'Total Harga: ${jual['TotalHarga']?.toString() ?? 'Tidak tersedia'}',
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic, fontSize: 16, color: Colors.grey,
                                 ),
                               ),
                               SizedBox(height: 8),
                               Text(
-                                'Pelanggan ID: ${jual['Pelangganid'] ?? 'Tidak tersedia'}',
+                                'Pelanggan ID: ${jual['Pelangganid']?.toString() ?? 'Tidak tersedia'}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14,
                                 ),
@@ -115,7 +114,7 @@ class _PenjualanTabState extends State<PenjualanTab> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => PenjualanUpdate(Pelangganid: Penjualanid),
+                                            builder: (context) => PenjualanUpdate(Penjualanid: Penjualanid)
                                           ),
                                         );
                                       } else {
@@ -159,13 +158,7 @@ class _PenjualanTabState extends State<PenjualanTab> {
                     );
                   },
                 ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { 
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AddTransaksi()));
-
-        },
-        child: Icon(Icons.add),
-      ),
+     
     );
   }
 }
