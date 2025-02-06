@@ -25,7 +25,7 @@ class _DetailPenjualanTabState extends State<DetailPenjualanTab> {
       isLoading = true;
     });
     try {
-      final response = await Supabase.instance.client.from('detailpenjualan').select();
+      final response = await Supabase.instance.client.from('detailpenjualan').select('*, penjualan(*, pelanggan(*)), produk(*)');
       setState(() {
         detaill = List<Map<String, dynamic>>.from(response);
       });
@@ -35,34 +35,6 @@ class _DetailPenjualanTabState extends State<DetailPenjualanTab> {
       setState(() {
         isLoading = false;
       });
-    }
-  }
-
-  Future<void> transaksi(int Pelangganid, int Subtotal) async {
-    try {
-      final response = await Supabase.instance.client.from('penjualan').insert({
-        'Pelangganid': Pelangganid,
-        'TotalHarga': Subtotal,
-      });
-
-      if (response == null || response.error != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Berhasil disimpan')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Berhasil disimpan')),
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => AdminHomePage()),
-        );
-      }
-    } catch (e) {
-      print('Error: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Terjadi kesalahan')),
-      );
     }
   }
 
@@ -88,8 +60,6 @@ class _DetailPenjualanTabState extends State<DetailPenjualanTab> {
                   itemBuilder: (context, index) {
                     final detail = detaill[index];
 
-                    final Pelangganid = 1;
-
                     final int Subtotal = (detail['Subtotal'] is int)
                         ? detail['Subtotal']
                         : int.tryParse(detail['Subtotal'].toString()) ?? 0;
@@ -106,16 +76,11 @@ class _DetailPenjualanTabState extends State<DetailPenjualanTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Detail ID: ${detail['Detailid']?.toString() ?? 'Tidak tersedia'}',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Penjualan ID: ${detail['Penjualanid']?.toString() ?? 'Tidak tersedia'}',
+                              'Nama Pelanggan: ${detail['penjualan']['pelanggan']['NamaPelanggan']?.toString() ?? 'Tidak tersedia'}',
                               style: TextStyle(fontSize: 16),
                             ),
                             Text(
-                              'Produk ID: ${detail['Produkid']?.toString() ?? 'Tidak tersedia'}',
+                              'Nama Produk: ${detail['produk']['NamaProduk']?.toString() ?? 'Tidak tersedia'}',
                               style: TextStyle(fontSize: 16),
                             ),
                             Text(
@@ -126,13 +91,7 @@ class _DetailPenjualanTabState extends State<DetailPenjualanTab> {
                               'Subtotal: ${detail['Subtotal']?.toString() ?? 'Tidak tersedia'}',
                               style: TextStyle(fontSize: 16),
                             ),
-                            SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: () async {
-                                await transaksi(Pelangganid, Subtotal);
-                              },
-                              child: Text('Pesan'),
-                            ),
+                            
                           ],
                         ),
                       ),

@@ -110,55 +110,7 @@ class _ProdukTabState extends State<ProdukTab> {
                                   'Stok: ${prd['Stok'] ?? 'Tidak Tersedia'}',
                                   style: TextStyle(fontSize: 14),
                                 ),
-                                Divider(),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit, color: Colors.blueAccent),
-                                      onPressed: () {
-                                        final Produkid = prd['Produkid'] ?? 0; // Pastikan ini sesuai dengan kolom di database
-                                        if (Produkid != 0) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => Updateproduk(Produkid: Produkid)
-                                            ),
-                                          );
-                                        } else {
-                                          print('ID pelanggan tidak valid');
-                                        }
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete, color: Colors.redAccent),
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text('Hapus Produk'),
-                                              content: const Text('Apakah Anda yakin ingin menghapus produk ini?'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () => Navigator.pop(context),
-                                                  child: const Text('Batal'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    deleteProduk(prd['Produkid']);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('Hapus'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                    
                               ],
                             ),
                           ),

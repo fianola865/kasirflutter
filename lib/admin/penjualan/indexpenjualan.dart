@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/admin/penjualan/updatepenjualan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -23,7 +22,8 @@ class _PenjualanTabState extends State<PenjualanTab> {
       isLoading = true;
     });
     try {
-      final response = await Supabase.instance.client.from('penjualan').select();
+      final response = await Supabase.instance.client.from('penjualan').select('*, pelanggan(NamaPelanggan)');
+      print(response);
       setState(() {
         penjualan = List<Map<String, dynamic>>.from(response);
         isLoading = false;
@@ -96,60 +96,11 @@ class _PenjualanTabState extends State<PenjualanTab> {
                               ),
                               SizedBox(height: 8),
                               Text(
-                                'Pelanggan ID: ${jual['Pelangganid']?.toString() ?? 'Tidak tersedia'}',
+                                'Nama Pelanggan: ${jual['pelanggan']['NamaPelanggan'] ?? 'Tidak tersedia'}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14,
                                 ),
                                 textAlign: TextAlign.justify,
-                              ),
-                              const Divider(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit, color: Colors.blueAccent),
-                                    onPressed: () {
-                                      final Penjualanid = jual['Penjualanid'] ?? 0; // Pastikan ini sesuai dengan kolom di database
-                                      if (Penjualanid != 0) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => PenjualanUpdate(Penjualanid: Penjualanid)
-                                          ),
-                                        );
-                                      } else {
-                                        print('ID pelanggan tidak valid');
-                                      }
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete, color: Colors.redAccent),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text('Hapus Pelanggan'),
-                                            content: const Text('Apakah Anda yakin ingin menghapus pelanggan ini?'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(context),
-                                                child: const Text('Batal'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  deleteBarang(jual['Penjualanid']);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Hapus'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ],
                               ),
                             ],
                           ),
