@@ -108,7 +108,7 @@ class _ProdukTabState extends State<ProdukTab> {
                                 SizedBox(height: 8),
                                 Text(
                                   'Stok: ${prd['Stok'] ?? 'Tidak Tersedia'}',
-                                  style: TextStyle(fontSize: 14),
+                                  style: TextStyle(fontSize: 13),
                                 ),
                                     
                               ],
